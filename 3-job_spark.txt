@@ -1,0 +1,37 @@
+# Job ETL
+
+# Execute no terminal: pip install pyspark
+
+# Imports
+from pyspark.sql import SparkSession
+
+# Cria a sessão Spark
+spark = SparkSession.builder.master("local").appName("Projeto5").getOrCreate()
+
+# Cria uma query
+query = "(SELECT ROUND(AVG(SALARIO),2) AS MEDIA_SALARIO, ROUND(AVG(COMISSAO),2) AS MEDIA_COMISSAO, NOME_DEPT, LOCALIDADE FROM PROJETO.FUNCIONARIOS F, PROJETO.DEPARTAMENTO D WHERE D.ID_DEPT = F.ID_DEPT GROUP BY NOME_DEPT, LOCALIDADE) resultado"
+
+# Conecta no banco de dados
+df = spark.read.format("jdbc").option("url", "jdbc:oracle:thin:@localhost:1521/orclpdb1").option("dbtable", query).option("user", "projeto").option("password", "fQvULIX/ziQ=1").option("driver", "oracle.jdbc.driver.OracleDriver").load()
+
+# Imprime o resultado
+df.show()
+
+# Salva em formato parquet (remova a pasta baixo depois da primeira execução)
+df.write.parquet("/tmp/out/jobetl") 
+
+# Carregando os dados no formato Parquet
+parDF = spark.read.parquet("/tmp/out/jobetl")
+
+# Imprime o resultado
+parDF.show()
+
+
+
+
+
+
+
+
+
+

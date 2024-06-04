@@ -1,0 +1,21 @@
+# Inicializa o pyspark
+pyspark --jars "/opt/spark/jars/ojdbc8.jar" --master local --num-executors 10 --driver-memory 4g --executor-memory 4g
+
+# Extrai os dados e grava em um dataframe do Spark
+df = spark.read.format("jdbc").option("url", "jdbc:oracle:thin:@localhost:1521/orclpdb1").option("dbtable", "projeto.funcionarios").option("user", "projeto").option("password", "fQvULIX/ziQ=1").option("driver", "oracle.jdbc.driver.OracleDriver").load()
+
+# Print do schema
+df.printSchema()
+
+# Mostra os dados
+df.show()
+
+# Cria uma query
+query = "(select avg(salario), cargo from projeto.funcionarios group by cargo) func"
+
+# Executa a query
+df2 = spark.read.format("jdbc").option("url", "jdbc:oracle:thin:@localhost:1521/orclpdb1").option("dbtable", query).option("user", "projeto").option("password", "fQvULIX/ziQ=1").option("driver", "oracle.jdbc.driver.OracleDriver").load()
+
+# Mostra os dados
+df2.show()
+

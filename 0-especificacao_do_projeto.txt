@@ -1,0 +1,14 @@
+#Especificação do Projeto:
+
+Para este projeto teremos em nossa fonte de dados (banco de dados Oracle) duas tabelas, 
+uma de cadastro de funcionários e outra de cadastro de departamentos. As duas tabelas 
+possuem relacionamento e cada funcionário pertence a um departamento.
+ 
+A equipe de Ciência de Dados precisa realizar um trabalho de previsão da média salarial 
+e média de comissão por departamento. Para tanto, dados históricos devem ser usados. 
+
+Usaremos o Apache Spark para construir um processo ETL capaz de extrair e processar a 
+média de salário e média de comissão por departamento e por localidade e, portanto, 
+precisaremos de dados das duas tabelas. O cálculo das médias deve ser feito antes da 
+extração dos dados. O resultado deve ser salvo em formato parquet a fim de otimizar o 
+uso de espaço em disco e facilitar o processamento dos modelos de Machine Learning.
